@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Designer & Programmer Portfolio</title>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* =========================================
+           CSS VARIABLES & RESET
+           ========================================= */
+        :root {
+            --bg-color: #0f1115;
+            --surface-color: #1a1d24;
+            --surface-hover: #222630;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a4b0;
+            --accent-primary: #5865F2; 
+            --accent-secondary: #8b5cf6;
+            --accent-gradient: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            --border-color: #2f3340;
+            --container-width: 1100px;
+            --font-main: 'Inter', sans-serif;
+            --transition: all 0.3s ease;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: var(--font-main);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        a { text-decoration: none; color: inherit; transition: var(--transition); }
+        ul { list-style: none; }
+        img { max-width: 100%; display: block; }
+        
+        /* Utility Classes */
+        .container { max-width: var(--container-width); margin: 0 auto; padding: 0 20px; }
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: var(--accent-primary);
+            color: white;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            border: none;
+        }
+        .btn:hover { background: var(--accent-secondary); transform: translateY(-2px); }
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--accent-primary);
+            color: var(--accent-primary);
+        }
+        .btn-outline:hover { background: var(--accent-primary); color: white; }
+        .section-title { font-size: 2rem; margin-bottom: 2rem; font-weight: 700; }
+        .grid { display: grid; gap: 2rem; }
+        
+        /* =========================================
+           NAVIGATION
+           ========================================= */
+        nav {
+            background: rgba(15, 17, 21, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+
+        .nav-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo { font-weight: 700; font-size: 1.2rem; letter-spacing: -0.5px; }
+        .logo span { color: var(--accent-primary); }
+
+        .nav-links { display: flex; gap: 2rem; }
+        .nav-links li a { 
+            font-size: 0.95rem; 
+            color: var(--text-secondary);
+            cursor: pointer;
+        }
+        .nav-links li a:hover { color: var(--text-primary); }
+
+        /* =========================================
+           PAGE STRUCTURE
+           ========================================= */
+        main {
+            margin-top: 80px; /* Offset fixed nav */
+            flex: 1;
+        }
+        
+        section {
+            padding: 4rem 0;
+        }
+        
+        /* Divider for main page sections only */
+        .main-view-section {
+            border-bottom: 1px solid #1a1d24; 
+        }
+
+        /* View Switching Logic */
+        #project-detail-view {
+            display: none; /* Hidden by default */
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* =========================================
+           HERO SECTION
+           ========================================= */
+        .hero {
+            text-align: center;
+            padding: 4rem 0 6rem 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, #fff, #a0a4b0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero .subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            max-width: 600px;
+        }
+
+        .hero-buttons { display: flex; gap: 1rem; margin-bottom: 3rem; }
+
+        /* Profile Picture Style */
+        .profile-pic-container {
+            width: 180px;
+            height: 180px;
+            margin-bottom: 2rem;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 4px solid var(--accent-primary);
+            box-shadow: 0 0 20px rgba(88, 101, 242, 0.3);
+            background-color: var(--surface-color);
+        }
+
+        .profile-pic-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        /* Featured Projects Grid */
+        .project-grid {
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        }
+
+        .project-card {
+            background: var(--surface-color);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-primary);
+        }
+
+        .card-image {
+            height: 200px;
+            background-color: #2a2e38;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+        }
+
+        .card-content { padding: 1.5rem; }
+        
+        .card-role {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--accent-primary);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .card-title { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .card-summary { color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 1.5rem; }
+
+        /* =========================================
+           PROJECT DETAIL STYLES (Restored)
+           ========================================= */
+        .proj-header {
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .proj-meta {
+            display: flex;
+            gap: 2rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .meta-item strong { display: block; color: var(--text-primary); font-size: 0.9rem; }
+        .meta-item span { color: var(--text-secondary); font-size: 0.9rem; }
+
+        .proj-section { margin-bottom: 4rem; }
+        .proj-section h3 { margin-bottom: 1rem; font-size: 1.5rem; color: var(--text-primary); }
+        .proj-section p { color: var(--text-secondary); margin-bottom: 1rem; }
+
+        .contributions-list li {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 0.8rem;
+            color: var(--text-secondary);
+        }
+        .contributions-list li::before {
+            content: "•";
+            color: var(--accent-primary);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+        .category-header { font-weight: 600; color: #fff; margin-top: 1.5rem; margin-bottom: 0.5rem; display: block;}
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+        .comparison-col {
+            background: var(--surface-color);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+        .comparison-col h4 { color: var(--accent-primary); margin-bottom: 1rem; }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+        .gallery-item {
+            height: 200px;
+            background: #2a2e38;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+        }
+
+        .takeaways {
+            background: linear-gradient(135deg, rgba(88, 101, 242, 0.1), rgba(139, 92, 246, 0.1));
+            border: 1px solid var(--accent-primary);
+            padding: 2rem;
+            border-radius: 8px;
+        }
+
+        /* =========================================
+           ABOUT SECTION
+           ========================================= */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        .skill-group h4 { color: var(--accent-primary); margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; }
+        .skill-group ul li { color: var(--text-secondary); margin-bottom: 0.5rem; }
+        
+        .about-intro-text {
+            font-size: 1.1rem; 
+            max-width: 800px; 
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+        
+        .about-preview {
+            background: var(--surface-color);
+            padding: 2rem;
+            border-radius: 12px;
+            margin-top: 3rem;
+            border: 1px solid var(--border-color);
+        }
+
+        /* =========================================
+           CONTACT SECTION
+           ========================================= */
+        .contact-list { font-size: 1.2rem; margin-top: 2rem; }
+        .contact-list li { margin-bottom: 1.5rem; }
+        .contact-list a { display: flex; align-items: center; gap: 1rem; color: var(--text-secondary); }
+        .contact-list a:hover { color: var(--accent-primary); }
+
+        /* =========================================
+           FOOTER
+           ========================================= */
+        footer {
+            border-top: 1px solid var(--border-color);
+            padding: 2rem 0;
+            text-align: center;
+            margin-top: auto;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .nav-links { display: none; } /* Simplified for demo */
+            .comparison-grid { grid-template-columns: 1fr; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- NAVIGATION -->
+    <nav>
+        <div class="container nav-inner">
+            <a href="#" class="logo" onclick="switchView('main')">DEV<span>PORTFOLIO</span></a>
+            <ul class="nav-links">
+                <li><a onclick="navigateToSection('home')">Home</a></li>
+                <li><a onclick="navigateToSection('projects')">Projects</a></li>
+                <li><a onclick="navigateToSection('about')">About</a></li>
+                <li><a onclick="navigateToSection('contact')">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+
+        <!-- ==================== MAIN SCROLLING VIEW ==================== -->
+        <div id="main-view">
+            
+            <!-- HERO -->
+            <section id="home" class="main-view-section">
+                <div class="hero">
+                    <!-- Circular Profile Pic on Top -->
+                    <div class="profile-pic-container">
+                        <img src="profile.jpg" alt="Profile Picture" />
+                    </div>
+
+                    <h1>Jae Min Hyun</h1>
+                    <p class="subtitle">Creating immersive systems, tight mechanics, and player-focused experiences using Unity and Unreal.</p>
+                    
+                    <div class="hero-buttons">
+                        <a class="btn btn-outline" href="Jae_Min_Hyun_Resume.pdf" download>
+                            Download Resume
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Featured Projects (Only 2 Cards) -->
+                <div id="projects">
+                    <h2 class="section-title">Featured Projects</h2>
+                    <div class="grid project-grid">
+                        <!-- Card 1 -->
+                        <article class="project-card">
+                            <div class="card-image">[Thumbnail]</div>
+                            <div class="card-content">
+                                <span class="card-role">Gameplay Programmer</span>
+                                <h3 class="card-title">Neon Dash</h3>
+                                <p class="card-summary">A fast-paced rhythm platformer built in Unity featuring custom physics.</p>
+                                <button class="btn btn-outline" style="width:100%; margin-top:1rem" onclick="openProjectDetail('Neon Dash')">View Project</button>
+                            </div>
+                        </article>
+
+                        <!-- Card 2 -->
+                        <article class="project-card">
+                            <div class="card-image">[Thumbnail]</div>
+                            <div class="card-content">
+                                <span class="card-role">Systems Designer</span>
+                                <h3 class="card-title">Project: Aether</h3>
+                                <p class="card-summary">Turn-based tactical RPG prototype focusing on elemental combat interactions.</p>
+                                <button class="btn btn-outline" style="width:100%; margin-top:1rem" onclick="openProjectDetail('Project Aether')">View Project</button>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ABOUT -->
+            <section id="about" class="main-view-section">
+                <h2 class="section-title">About Me</h2>
+                
+                <p class="about-intro-text"> Coming Soon</p>
+
+                <div class="skills-grid">
+                    <div class="skill-group">
+                        <h4>Game Design</h4>
+                        <ul>
+                            <li>Coming Soon</li>
+      
+                        </ul>
+                    </div>
+                    <div class="skill-group">
+                        <h4>Technical Skills</h4>
+                        <ul>
+                            <li>Coming Soon</li>
+       
+                        </ul>
+                    </div>
+                    <div class="skill-group">
+                        <h4>Tools & Software</h4>
+                        <ul>
+                            <li>Coming Soon</li>
+
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="about-preview">
+                    <h4 style="color: var(--accent-primary); margin-bottom: 0.5rem;">Personal Interests</h4>
+                    <p style="color: var(--text-secondary);">Coming Soon. Content is currently being prepared.</p>
+                </div>
+            </section>
+
+            <!-- CONTACT -->
+            <section id="contact" class="main-view-section">
+                <h2 class="section-title">Get In Touch</h2>
+                <p style="margin-bottom: 1rem; color: var(--text-secondary); max-width: 1000px;">
+                    I am currently open to work opportunities. Feel free to reach out via email or connect on social media.
+                </p>
+                
+                <ul class="contact-list">
+                    <li>
+                        <a href="mailto:hyun.ja@northeastern.edu">
+                            <span>✉️</span> hyun.ja@northeastern.edu
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="https://www.linkedin.com/in/jae-min-hyun/" target="_blank">
+                            <span>🔗</span> LinkedIn Profile
+                        </a>
+                    </li>
+
+                    <li>
+                        <a>
+                            <span>🎮</span> Discord: jaemin2943
+                        </a>
+                    </li>
+                </ul>
+            </section>
+        </div>
+
+        <!-- ==================== PROJECT DETAIL VIEW (HIDDEN) ==================== -->
+        <div id="project-detail-view">
+            <section class="page-section">
+                <button class="btn-outline" onclick="switchView('main')" style="margin-bottom:2rem; padding: 8px 16px;">← Back to Projects</button>
+                
+                <div class="proj-header">
+                    <h1 id="detail-title">Neon Dash</h1>
+                    <div class="proj-meta">
+                        <div class="meta-item">
+                            <strong>ROLE</strong>
+                            <span>Gameplay Programmer</span>
+                        </div>
+                        <div class="meta-item">
+                            <strong>ENGINE</strong>
+                            <span>Unity (C#)</span>
+                        </div>
+                        <div class="meta-item">
+                            <strong>TEAM SIZE</strong>
+                            <span>3 People</span>
+                        </div>
+                        <div class="meta-item">
+                            <strong>DURATION</strong>
+                            <span>4 Months</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="proj-section">
+                    <h3>Overview</h3>
+                    <p>Neon Dash is a rhythm-based 2D platformer where the environment pulses to the beat of the music. The goal was to create a "flow state" experience for players. I was responsible for the core character controller, the audio-sync system, and the level editor tools.</p>
+                </div>
+
+                <div class="proj-section">
+                    <h3>My Contributions</h3>
+                    <ul class="contributions-list">
+                        <span class="category-header">Systems & Mechanics</span>
+                        <li>Designed and implemented the "Dash" mechanic which makes the player invulnerable for 0.2s.</li>
+                        <li>Tuned jump gravity and air control values based on 20+ playtest sessions.</li>
+                        
+                        <span class="category-header">Technical Implementation</span>
+                        <li>wrote a custom kinematic character controller in C# to ensure precise collision detection.</li>
+                        <li>Developed an Audio Manager that uses FFT analysis to trigger environmental animations on beat.</li>
+                        
+                        <span class="category-header">Design Iteration</span>
+                        <li>Simplified the level layout after playtesters reported visual clutter making navigation difficult.</li>
+                    </ul>
+                </div>
+
+                <div class="proj-section">
+                    <h3>Problem Solving</h3>
+                    <div class="comparison-grid">
+                        <div class="comparison-col">
+                            <h4>The Problem</h4>
+                            <p>Unity's default physics engine resulted in "floaty" movement and inconsistent wall-jumping, which ruined the rhythm aspect of the game.</p>
+                        </div>
+                        <div class="comparison-col">
+                            <h4>The Solution & Result</h4>
+                            <p>I stripped out the Rigidbody physics and wrote a raycast-based controller. This resulted in pixel-perfect collision and snappy input response.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="proj-section">
+                    <h3>Media Gallery</h3>
+                    <div class="gallery-grid">
+                        <div class="gallery-item">[Screenshot 1]</div>
+                        <div class="gallery-item">[Screenshot 2]</div>
+                        <div class="gallery-item">[Code Snippet GIF]</div>
+                    </div>
+                </div>
+
+                <div class="proj-section">
+                    <div class="takeaways">
+                        <h3>Key Takeaways</h3>
+                        <ul class="contributions-list">
+                            <li>Don't rely on default physics for precision platformers; custom controllers are worth the effort.</li>
+                            <li>Visual feedback (screenshake, particles) is just as important as the mechanic itself for game feel.</li>
+                            <li>Building tools for level designers early saves weeks of development time later.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Name Surname. Built with HTML/CSS/JS.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Switch between the Main Scrollable View and the Detail View
+        function switchView(viewName) {
+            const mainView = document.getElementById('main-view');
+            const detailView = document.getElementById('project-detail-view');
+
+            if (viewName === 'detail') {
+                mainView.style.display = 'none';
+                detailView.style.display = 'block';
+                window.scrollTo(0, 0);
+            } else {
+                detailView.style.display = 'none';
+                mainView.style.display = 'block';
+                // Ideally scroll back to projects section
+                const projectsSection = document.getElementById('projects');
+                if(projectsSection) {
+                    projectsSection.scrollIntoView();
+                }
+            }
+        }
+
+        // Logic to populate and open the project detail
+        function openProjectDetail(title) {
+            // In a real app, you would load dynamic data here.
+            // For this demo, we just update the title and show the template.
+            const titleEl = document.getElementById('detail-title');
+            if (titleEl) titleEl.innerText = title;
+            
+            switchView('detail');
+        }
+
+        // Nav handling: If in detail view, go back to main then scroll
+        function navigateToSection(sectionId) {
+            const mainView = document.getElementById('main-view');
+            const detailView = document.getElementById('project-detail-view');
+
+            // If we are currently in detail view, switch back first
+            if (detailView.style.display === 'block') {
+                detailView.style.display = 'none';
+                mainView.style.display = 'block';
+            }
+
+            // Scroll to the section
+            const target = document.getElementById(sectionId);
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+    </script>
+</body>
+</html>
