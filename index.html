@@ -125,7 +125,12 @@
         }
 
         /* View Switching Logic */
-        #project-detail-view {
+        #project-detail-view-1 {
+            display: none; /* Hidden by default */
+            animation: fadeIn 0.5s ease;
+        }
+
+        #project-detail-view-2 {
             display: none; /* Hidden by default */
             animation: fadeIn 0.5s ease;
         }
@@ -185,6 +190,8 @@
         /* Featured Projects Grid */
         .project-grid {
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            align-items: start;
+            min-height: 570px;
         }
 
         .project-card {
@@ -193,6 +200,8 @@
             border-radius: 12px;
             overflow: hidden;
             transition: var(--transition);
+            min-height: 400px;            /* adjust based on your largest card */
+            position: relative;
         }
 
         .project-card:hover {
@@ -200,17 +209,38 @@
             border-color: var(--accent-primary);
         }
 
+        /* UPDATED: image expands on hover */
         .card-image {
-            height: 200px;
+            max-height: 200px;                 /* default cropped height */
             background-color: #2a2e38;
+            overflow: hidden;
+            transition: max-height 0.8s ease;  /* smooth expansion */
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             justify-content: center;
             color: var(--text-secondary);
         }
 
+        .project-card:hover .card-image {
+            transition: max-height 2s ease;
+            max-height: 1000px;                /* allow full image to expand */
+        }
+
+        .project-card:hover .btn {
+            background: var(--accent-primary);
+            color: white;
+            transform: translateY(-2px);
+            transition: var(--transition);
+        }
+
+        .card-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
         .card-content { padding: 1.5rem; }
-        
+
         .card-role {
             font-size: 0.8rem;
             text-transform: uppercase;
@@ -221,8 +251,17 @@
             display: block;
         }
 
-        .card-title { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem; }
-        .card-summary { color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 1.5rem; }
+        .card-title { 
+            font-size: 1.25rem; 
+            font-weight: 700; 
+            margin-bottom: 0.5rem; 
+        }
+
+        .card-summary { 
+            color: var(--text-secondary); 
+            font-size: 0.95rem; 
+            margin-bottom: 1.5rem; 
+        }
 
         /* =========================================
            PROJECT DETAIL STYLES (Restored)
@@ -311,7 +350,7 @@
         
         .about-intro-text {
             font-size: 1.1rem; 
-            max-width: 800px; 
+            max-width: 1100px; 
             color: var(--text-secondary);
             margin-bottom: 2rem;
         }
@@ -390,38 +429,45 @@
                         </a>
                     </div>
                 </div>
+            </section>
 
-                <!-- Featured Projects (Only 2 Cards) -->
+            <!-- PROJECTS -->
+             <section id="projects" class="main-view-section">
+                                <!-- Featured Projects (Only 2 Cards) -->
                 <div id="projects">
                     <h2 class="section-title">Featured Projects</h2>
                     <div class="grid project-grid">
                         <!-- Card 1 -->
-                        <article class="project-card">
-                            <div class="card-image">[Thumbnail]</div>
+                        <article class="project-card" onclick="openProjectDetail('detail-lumina-glen')">
+                            <div class="card-image">
+                                <img src="lumina_glen.png" alt="Thumbnail">
+                            </div>
                             <div class="card-content">
                                 <span class="card-role">Gameplay Programmer</span>
                                 <h3 class="card-title">Lumina Glen</h3>
                                 <p class="card-summary"> A 3D action-adventure game where players explore mystical realms, battle Slime enemies,
                                     and face a final boss to restore light to a fading world.</p>
-                                <button class="btn btn-outline" style="width:100%; margin-top:1rem" onclick="openProjectDetail('Neon Dash')">View Project</button>
+                                <button class="btn btn-outline" style="width:100%; margin-top:1rem">View Project</button>
                             </div>
                         </article>
 
                         <!-- Card 2 -->
-                        <article class="project-card">
-                            <div class="card-image">[Thumbnail]</div>
+                        <article class="project-card" onclick="openProjectDetail('detail-souls-reckoning')">
+                            <div class="card-image">
+                                <img src="soul's_reckoning.png" alt="Thumbnail">
+                            </div>
                             <div class="card-content">
                                 <span class="card-role">Technical Designer / Programmer</span>
                                 <h3 class="card-title">Soul's Reckoning</h3>
                                 <p class="card-summary">A narrative-driven journey through the realm between life and death, featuring
                                     multiple themed minigames tied to the gods who test the player’s memory, reflexes, 
                                     and moral choices.</p>
-                                <button class="btn btn-outline" style="width:100%; margin-top:1rem" onclick="openProjectDetail('Project Aether')">View Project</button>
+                                <button class="btn btn-outline" style="width:100%; margin-top:1rem">View Project</button>
                             </div>
                         </article>
                     </div>
                 </div>
-            </section>
+             </section>
 
             <!-- ABOUT -->
             <section id="about" class="main-view-section">
@@ -491,12 +537,12 @@
         </div>
 
         <!-- ==================== PROJECT DETAIL VIEW (HIDDEN) ==================== -->
-        <div id="project-detail-view">
-            <section class="page-section">
+        <div id="project-detail-view-1">
+            <section id="detail-lumina-glen" class="project-detail-content page-section">
                 <button class="btn-outline" onclick="switchView('main')" style="margin-bottom:2rem; padding: 8px 16px;">← Back to Projects</button>
                 
                 <div class="proj-header">
-                    <h1 id="detail-title">Neon Dash</h1>
+                    <h1 id="detail-title">Lumina Glen</h1>
                     <div class="proj-meta">
                         <div class="meta-item">
                             <strong>ROLE</strong>
@@ -508,33 +554,38 @@
                         </div>
                         <div class="meta-item">
                             <strong>TEAM SIZE</strong>
-                            <span>3 People</span>
+                            <span>4 People</span>
                         </div>
                         <div class="meta-item">
                             <strong>DURATION</strong>
-                            <span>4 Months</span>
+                            <span>2 Months</span>
                         </div>
                     </div>
                 </div>
 
                 <div class="proj-section">
                     <h3>Overview</h3>
-                    <p>Neon Dash is a rhythm-based 2D platformer where the environment pulses to the beat of the music. The goal was to create a "flow state" experience for players. I was responsible for the core character controller, the audio-sync system, and the level editor tools.</p>
+                    <p>Lumina Glen is a 3D action-adventure game where players explore magical realms, defeat 
+                        hostile Slime creatures, and face a final boss to restore balance to a fading world. 
+                        The game combines light platforming, combat encounters, and level progression across 
+                        three themed environments.</p>
                 </div>
 
                 <div class="proj-section">
                     <h3>My Contributions</h3>
                     <ul class="contributions-list">
                         <span class="category-header">Systems & Mechanics</span>
-                        <li>Designed and implemented the "Dash" mechanic which makes the player invulnerable for 0.2s.</li>
-                        <li>Tuned jump gravity and air control values based on 20+ playtest sessions.</li>
+                        <li>Implemented combat behaviors for multiple enemy types including Slimes, Slime Guards, Turrets, and Minions.</li>
+                        <li>Built the full Slime King boss encounter, including attack patterns, summoning cycles, and pacing logic.</li>
                         
                         <span class="category-header">Technical Implementation</span>
-                        <li>wrote a custom kinematic character controller in C# to ensure precise collision detection.</li>
-                        <li>Developed an Audio Manager that uses FFT analysis to trigger environmental animations on beat.</li>
-                        
-                        <span class="category-header">Design Iteration</span>
-                        <li>Simplified the level layout after playtesters reported visual clutter making navigation difficult.</li>
+                        <li>Developed AI movement, detection, and state-based logic using Unity and C#.</li>
+                        <li>Created projectile and damage systems for both enemies and the final boss.</li>
+                        <li>Implemented health pickup behavior and integrated it with player combat flow.</li>
+
+                        <span class="category-header">Level & Encounter Design</span>
+                        <li>Designed the final level layout, enemy placement, and encounter sequencing.</li>
+                        <li>Tuned difficulty curves and adjusted pacing based on playtest feedback.</li>
                     </ul>
                 </div>
 
@@ -543,11 +594,20 @@
                     <div class="comparison-grid">
                         <div class="comparison-col">
                             <h4>The Problem</h4>
-                            <p>Unity's default physics engine resulted in "floaty" movement and inconsistent wall-jumping, which ruined the rhythm aspect of the game.</p>
+                            <p>
+                                Early playtests showed that players were missing jumps and struggling with combat timing.
+                                The default movement logic caused inconsistent acceleration, and enemies didn’t clearly communicate attack cues.
+                                This broke the intended “rhythm-action” feel of the game.
+                            </p>
                         </div>
                         <div class="comparison-col">
                             <h4>The Solution & Result</h4>
-                            <p>I stripped out the Rigidbody physics and wrote a raycast-based controller. This resulted in pixel-perfect collision and snappy input response.</p>
+                            <p>
+                                I rewrote the movement and attack timing systems to use fixed-step input buffering and added
+                                animation-driven telegraphs for enemy attacks. 
+                                As a result, players reported far fewer “unfair” deaths, navigation felt more responsive,
+                                and combat rhythm finally matched the game’s intended pacing.
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -565,9 +625,96 @@
                     <div class="takeaways">
                         <h3>Key Takeaways</h3>
                         <ul class="contributions-list">
-                            <li>Don't rely on default physics for precision platformers; custom controllers are worth the effort.</li>
-                            <li>Visual feedback (screenshake, particles) is just as important as the mechanic itself for game feel.</li>
-                            <li>Building tools for level designers early saves weeks of development time later.</li>
+                            <li>Learned how tightly-coupled movement, timing, and animation must be to create satisfying combat and platforming.</li>
+                            <li>Discovered the importance of playtesting early and often as player feedback directly shaped tuning and redesigns.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div id ="project-detail-view-2">
+            <section id="detail-souls-reckoning" class="project-detail-content page-section">
+                <button class="btn-outline" onclick="switchView('main')" style="margin-bottom:2rem; padding: 8px 16px;">← Back to Projects</button>
+                
+                <div class="proj-header">
+                    <h1>Soul’s Reckoning</h1>
+                    <div class="proj-meta">
+                        <div class="meta-item"><strong>ROLE</strong><span>Technical Designer / Programmer</span></div>
+                        <div class="meta-item"><strong>ENGINE</strong><span>Unity</span></div>
+                        <div class="meta-item"><strong>TEAM SIZE</strong><span>4 People</span></div>
+                        <div class="meta-item"><strong>DURATION</strong><span>4 Months</span></div>
+                    </div>
+                </div>
+
+                <div class="proj-section">
+                    <h3>Overview</h3>
+                    <p>
+                        Soul’s Reckoning is a narrative-driven adventure set in the realm between life and death. 
+                        Players progress through story chapters by completing five themed minigames, each tied to a 
+                        god who tests the player’s memory, reflexes, or moral decisions. The experience blends 
+                        narrative choice-making with short, specialized gameplay segments.
+                    </p>
+                </div>
+
+                <div class="proj-section">
+                    <h3>My Contributions</h3>
+                    <ul class="contributions-list">
+
+                        <span class="category-header">Systems & Mechanics</span>
+                        <li>Designed and implemented the Memory Input minigame—pattern recognition, timing-based windows, and difficulty scaling.</li>
+                        <li>Built the Soul Catching minigame including movement, collectible logic, hazard behavior, and time-based scoring.</li>
+
+                        <span class="category-header">Technical Implementation</span>
+                        <li>Developed custom state logic for each minigame to manage transitions, win/lose conditions, and pacing.</li>
+                        <li>Scripted interaction systems connecting gameplay outcomes to narrative progression.</li>
+                        <li>Created camera and UI feedback behaviors to improve clarity and responsiveness during minigames.</li>
+
+                        <span class="category-header">Design Iteration</span>
+                        <li>Refined timing windows, obstacle speeds, and visual feedback based on repeated playtest cycles.</li>
+                        <li>Simplified early versions of both minigames after testers reported difficulty understanding goals and timing cues.</li>
+
+                    </ul>
+                </div>
+
+                <div class="proj-section">
+                    <h3>Problem Solving</h3>
+                    <div class="comparison-grid">
+                        <div class="comparison-col">
+                            <h4>The Problem</h4>
+                            <p>
+                                Early playtests showed that players struggled to understand the rhythm and pacing of the 
+                                Memory Input minigame—patterns felt abrupt and failure didn't feel fair.
+                            </p>
+                        </div>
+                        <div class="comparison-col">
+                            <h4>The Solution & Result</h4>
+                            <p>
+                                I added preview cues, slower ramp-up timing, and clearer color-based scoring feedback. 
+                                Completion rates increased significantly, and players reported a stronger feeling of 
+                                flow and control.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="proj-section">
+                    <h3>Media Gallery</h3>
+                    <div class="gallery-grid">
+                        <div class="gallery-item">[Combat Screenshot]</div>
+                        <div class="gallery-item">[Blueprint Graph]</div>
+                        <div class="gallery-item">[Reaction GIF]</div>
+                    </div>
+                </div>
+
+                <div class="proj-section">
+                    <div class="takeaways">
+                        <h3>Key Takeaways</h3>
+                        <ul class="contributions-list">
+                            <li>Learned how to design minigames that balance clarity, challenge, and thematic alignment with the narrative.</li>
+                            <li>Strengthened my ability to prototype quickly, iterate based on tester confusion, and simplify mechanics without losing depth.</li>
+                            <li>Developed a better understanding of how gameplay outcomes can drive narrative progression.</li>
+                            <li>Improved at structuring state-based systems for clean transitions between multiple gameplay modes.</li>
                         </ul>
                     </div>
                 </div>
@@ -586,14 +733,22 @@
         // Switch between the Main Scrollable View and the Detail View
         function switchView(viewName) {
             const mainView = document.getElementById('main-view');
-            const detailView = document.getElementById('project-detail-view');
+            const detailView1 = document.getElementById('project-detail-view-1');
+            const detailView2 = document.getElementById('project-detail-view-2');
 
-            if (viewName === 'detail') {
+            if (viewName === 'detail-lumina-glen') {
                 mainView.style.display = 'none';
-                detailView.style.display = 'block';
+                detailView1.style.display = 'block';
+                detailView2.style.display = 'none';
+                window.scrollTo(0, 0);
+            } else if (viewName === 'detail-souls-reckoning') {
+                mainView.style.display = 'none';
+                detailView1.style.display = 'none';
+                detailView2.style.display = 'block';
                 window.scrollTo(0, 0);
             } else {
-                detailView.style.display = 'none';
+                detailView1.style.display = 'none';
+                detailView2.style.display = 'none';
                 mainView.style.display = 'block';
                 // Ideally scroll back to projects section
                 const projectsSection = document.getElementById('projects');
@@ -603,24 +758,30 @@
             }
         }
 
-        // Logic to populate and open the project detail
-        function openProjectDetail(title) {
-            // In a real app, you would load dynamic data here.
-            // For this demo, we just update the title and show the template.
-            const titleEl = document.getElementById('detail-title');
-            if (titleEl) titleEl.innerText = title;
-            
-            switchView('detail');
+        // Open a Specific Project Detail by ID
+        function openProjectDetail(detailId) {
+            // 1. Hide all active details first
+            const allDetails = document.querySelectorAll('.project-detail-content');
+            allDetails.forEach(el => el.classList.remove('active'));
+
+            // 2. Show the requested detail
+            const targetDetail = document.getElementById(detailId);
+            if(targetDetail) {
+                targetDetail.classList.add('active');
+                switchView(detailId);
+            }
         }
 
         // Nav handling: If in detail view, go back to main then scroll
         function navigateToSection(sectionId) {
             const mainView = document.getElementById('main-view');
-            const detailView = document.getElementById('project-detail-view');
+            const detailView1 = document.getElementById('project-detail-view-1');
+            const detailView2 = document.getElementById('project-detail-view-2');
 
             // If we are currently in detail view, switch back first
-            if (detailView.style.display === 'block') {
-                detailView.style.display = 'none';
+            if (detailView1.style.display === 'block' || detailView2.style.display === 'block') {
+                detailView1.style.display = 'none';
+                detailView2.style.display = 'none';
                 mainView.style.display = 'block';
             }
 
