@@ -264,7 +264,7 @@
         }
 
         /* =========================================
-           PROJECT DETAIL STYLES (Restored)
+           PROJECT DETAIL STYLES
            ========================================= */
         .proj-header {
             margin-bottom: 3rem;
@@ -281,6 +281,26 @@
         
         .meta-item strong { display: block; color: var(--text-primary); font-size: 0.9rem; }
         .meta-item span { color: var(--text-secondary); font-size: 0.9rem; }
+
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: 8px;
+            background: #000;
+            border: 1px solid var(--border-color);
+        }
+        .video-container iframe, 
+        .video-container video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
 
         .proj-section { margin-bottom: 4rem; }
         .proj-section h3 { margin-bottom: 1rem; font-size: 1.5rem; color: var(--text-primary); }
@@ -564,28 +584,44 @@
                 </div>
 
                 <div class="proj-section">
+                    <h3>Trailer</h3>
+                    <div class="video-container">
+                        <iframe
+                            src="https://www.youtube.com/embed/nIWpiwhBBPI"
+                            title="Lumina Glen Trailer"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
+
+                <div class="proj-section">
                     <h3>Overview</h3>
-                    <p>Lumina Glen is a 3D action-adventure game where players explore magical realms, defeat 
-                        hostile Slime creatures, and face a final boss to restore balance to a fading world. 
-                        The game combines light platforming, combat encounters, and level progression across 
-                        three themed environments.</p>
+                    <p>
+                        Lumina Glen is a 3D action-adventure FPS where players explore magical realms, battle 
+                        hostile Slime creatures, and confront a multi-phase final boss to restore peace to a fading world. 
+                        The game blends light platforming, enemy encounters, and level progression across three themed environments.
+                    </p>
                 </div>
 
                 <div class="proj-section">
                     <h3>My Contributions</h3>
                     <ul class="contributions-list">
-                        <span class="category-header">Systems & Mechanics</span>
-                        <li>Implemented combat behaviors for multiple enemy types including Slimes, Slime Guards, Turrets, and Minions.</li>
-                        <li>Built the full Slime King boss encounter, including attack patterns, summoning cycles, and pacing logic.</li>
-                        
+
+                        <span class="category-header">Enemy AI & Combat Systems</span>
+                        <li>Implemented core combat behaviors for all major enemy types, including Slimes, Slime Guards, Turrets, Minions, and the final boss.</li>
+                        <li>Built the full Slime King boss encounter with timed jump attacks, minion summoning waves, projectile rain patterns, telegraphed actions, and attack pacing logic.</li>
+                        <li>Developed a hybrid physics + NavMesh agent system for Minions, enabling airborne spawn animations before switching to AI-driven chasing.</li>
+
                         <span class="category-header">Technical Implementation</span>
-                        <li>Developed AI movement, detection, and state-based logic using Unity and C#.</li>
-                        <li>Created projectile and damage systems for both enemies and the final boss.</li>
-                        <li>Implemented health pickup behavior and integrated it with player combat flow.</li>
+                        <li>Created AI movement, detection, and state management using custom logic and finite-state machine behavior.</li>
+                        <li>Implemented projectile behaviors, including homing patterns, scaling effects, timed activations, and collision-based damage.</li>
+                        <li>Developed health vial loot behavior and integrated enemy drops into the player's combat loop.</li>
 
                         <span class="category-header">Level & Encounter Design</span>
-                        <li>Designed the final level layout, enemy placement, and encounter sequencing.</li>
-                        <li>Tuned difficulty curves and adjusted pacing based on playtest feedback.</li>
+                        <li>Designed the final level layout and boss arena, balancing player sightlines, mobility, and combat flow.</li>
+                        <li>Placed enemies in Level 1 to shape navigation, pacing, and difficulty progression.</li>
+                        <li>Adjusted encounters based on internal, beta, and final playtesting sessions.</li>
                     </ul>
                 </div>
 
@@ -595,18 +631,19 @@
                         <div class="comparison-col">
                             <h4>The Problem</h4>
                             <p>
-                                Early playtests showed that players were missing jumps and struggling with combat timing.
-                                The default movement logic caused inconsistent acceleration, and enemies didn’t clearly communicate attack cues.
-                                This broke the intended “rhythm-action” feel of the game.
+                                Early builds lacked engaging combat pacing. Enemy behaviors were too simple, and encounters 
+                                didn’t telegraph threats clearly enough for players to react. 
+                                Additionally, Minions spawned abruptly with no animation or sense of weight, making the boss fight feel flat.
                             </p>
                         </div>
                         <div class="comparison-col">
                             <h4>The Solution & Result</h4>
                             <p>
-                                I rewrote the movement and attack timing systems to use fixed-step input buffering and added
-                                animation-driven telegraphs for enemy attacks. 
-                                As a result, players reported far fewer “unfair” deaths, navigation felt more responsive,
-                                and combat rhythm finally matched the game’s intended pacing.
+                                I redesigned enemy AI to include clearer state transitions, distance-based triggers, 
+                                and rotational tracking to communicate intention. 
+                                The Minion system was rebuilt to use physics-based launch animations before switching 
+                                into NavMesh-driven chasing, creating a smoother and immersive encounter. 
+                                As a result, playtesters reported that combat felt more readable, and engaging.
                             </p>
                         </div>
                     </div>
@@ -625,8 +662,9 @@
                     <div class="takeaways">
                         <h3>Key Takeaways</h3>
                         <ul class="contributions-list">
-                            <li>Learned how tightly-coupled movement, timing, and animation must be to create satisfying combat and platforming.</li>
-                            <li>Discovered the importance of playtesting early and often as player feedback directly shaped tuning and redesigns.</li>
+                            <li>Learned how to combine physics, NavMesh, and state-based logic to create expressive enemy behaviors.</li>
+                            <li>Experienced the importance of structuring encounters through enemy placement, pacing, and player visibility.</li>
+                            <li>Playtesting was essential. Enemy transitions, boss timing, and difficulty tuning improved significantly through iteration.</li>
                         </ul>
                     </div>
                 </div>
@@ -647,13 +685,27 @@
                     </div>
                 </div>
 
+
+                <div class="proj-section">
+                    <h3>Trailer</h3>
+                    <div class="video-container">
+                        <iframe
+                            src="https://www.youtube.com/embed/S7iupx0mzxs"
+                            title="Soul's Reckoning Trailer"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
+
+
                 <div class="proj-section">
                     <h3>Overview</h3>
                     <p>
-                        Soul’s Reckoning is a narrative-driven adventure set in the realm between life and death. 
-                        Players progress through story chapters by completing five themed minigames, each tied to a 
-                        god who tests the player’s memory, reflexes, or moral decisions. The experience blends 
-                        narrative choice-making with short, specialized gameplay segments.
+                        Soul’s Reckoning is a narrative-driven adventure set in the realm between life and death.
+                        Players progress through the story by completing five themed minigames, each tied to a
+                        deity who tests the player through memory challenges, rhythm trials, or moral judgement.
+                        The game blends Ink-powered narrative choices with short, self-contained gameplay segments.
                     </p>
                 </div>
 
@@ -662,17 +714,17 @@
                     <ul class="contributions-list">
 
                         <span class="category-header">Systems & Mechanics</span>
-                        <li>Designed and implemented the Memory Input minigame—pattern recognition, timing-based windows, and difficulty scaling.</li>
-                        <li>Built the Soul Catching minigame including movement, collectible logic, hazard behavior, and time-based scoring.</li>
+                        <li>Implemented the full Keypad Memory minigame (sequence display, input validation, retry/reset logic, difficulty scaling, audio cues).</li>
+                        <li>Designed and developed the Soul Catching minigame, including soul/guardian behavior, collision rules, random movement patterns, speed ramping, and time-based win conditions.</li>
 
                         <span class="category-header">Technical Implementation</span>
-                        <li>Developed custom state logic for each minigame to manage transitions, win/lose conditions, and pacing.</li>
-                        <li>Scripted interaction systems connecting gameplay outcomes to narrative progression.</li>
-                        <li>Created camera and UI feedback behaviors to improve clarity and responsiveness during minigames.</li>
+                        <li>Integrated Ink dialogue flow with gameplay, enabling transitions between cutscenes and minigames.</li>
+                        <li>Connected minigame scenes into a cohesive sequence with functional win/lose routing.</li>
+                        <li>Polished scene interactions such as door-hover highlighting and improved audio mixing for clarity.</li>
 
                         <span class="category-header">Design Iteration</span>
-                        <li>Refined timing windows, obstacle speeds, and visual feedback based on repeated playtest cycles.</li>
-                        <li>Simplified early versions of both minigames after testers reported difficulty understanding goals and timing cues.</li>
+                        <li>Adjusted difficulty curves, pacing, and feedback in both minigames based on class playtests.</li>
+                        <li>Improved clarity through stronger visual and audio feedback after observation-based usability testing.</li>
 
                     </ul>
                 </div>
@@ -683,16 +735,18 @@
                         <div class="comparison-col">
                             <h4>The Problem</h4>
                             <p>
-                                Early playtests showed that players struggled to understand the rhythm and pacing of the 
-                                Memory Input minigame—patterns felt abrupt and failure didn't feel fair.
+                                Early versions of the Keypad Memory minigame lacked clear feedback.
+                                Players often missed the start of new sequences, weren’t sure when rounds reset,
+                                and struggled to understand why they failed attempts.
                             </p>
                         </div>
                         <div class="comparison-col">
                             <h4>The Solution & Result</h4>
                             <p>
-                                I added preview cues, slower ramp-up timing, and clearer color-based scoring feedback. 
-                                Completion rates increased significantly, and players reported a stronger feeling of 
-                                flow and control.
+                                I added stronger visual/audio cues, clearer round-start indicators,
+                                and refined sequence pacing. After these changes,
+                                players reported the experience felt more readable and fair,
+                                and successful completion rates increased during subsequent playtests.
                             </p>
                         </div>
                     </div>
@@ -711,10 +765,10 @@
                     <div class="takeaways">
                         <h3>Key Takeaways</h3>
                         <ul class="contributions-list">
-                            <li>Learned how to design minigames that balance clarity, challenge, and thematic alignment with the narrative.</li>
-                            <li>Strengthened my ability to prototype quickly, iterate based on tester confusion, and simplify mechanics without losing depth.</li>
-                            <li>Developed a better understanding of how gameplay outcomes can drive narrative progression.</li>
-                            <li>Improved at structuring state-based systems for clean transitions between multiple gameplay modes.</li>
+                            <li>Learned how to build minigames that align mechanically with narrative themes.</li>
+                            <li>Improved rapid prototyping and iteration workflows based on structured playtest feedback.</li>
+                            <li>Strengthened ability to integrate gameplay systems with branching dialogue tools like Ink.</li>
+                            <li>Gained experience architecting clean state transitions across multiple minigame scenes.</li>
                         </ul>
                     </div>
                 </div>
@@ -725,7 +779,7 @@
 
     <footer>
         <div class="container">
-            <p>&copy; 2024 Name Surname. Built with HTML/CSS/JS.</p>
+            <p>&copy; 2025 Jae Min Hyun. Built with HTML/CSS/JS.</p>
         </div>
     </footer>
 
