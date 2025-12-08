@@ -356,6 +356,94 @@
             border-radius: 8px;
         }
 
+        .gallery-scroller {
+            display: flex;
+            overflow-x: auto;
+            gap: 1rem;
+            padding-bottom: 1rem; /* Space for scrollbar */
+            scroll-behavior: smooth;
+            /* Optional: Hide scrollbar for cleaner look on some browsers */
+            scrollbar-width: thin; 
+            scrollbar-color: var(--accent-primary) var(--surface-color);
+        }
+
+        /* Custom Scrollbar Styling (Webkit) */
+        .gallery-scroller::-webkit-scrollbar { height: 8px; }
+        .gallery-scroller::-webkit-scrollbar-track { background: var(--surface-color); border-radius: 4px; }
+        .gallery-scroller::-webkit-scrollbar-thumb { background: var(--accent-primary); border-radius: 4px; }
+
+        /* Gallery Items */
+        .gallery-item {
+            flex: 0 0 300px; /* Fixed width for each item */
+            height: 180px;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: var(--transition);
+            background-color: #000;
+            position: relative;
+        }
+
+        .gallery-item:hover {
+            border-color: var(--accent-primary);
+            transform: scale(1.02);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Lightbox (Popup) Overlay */
+        .lightbox {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .lightbox-content {
+            max-width: 90%;
+            max-height: 80vh;
+            border: 2px solid var(--accent-primary);
+            border-radius: 4px;
+            box-shadow: 0 0 20px rgba(88, 101, 242, 0.2);
+        }
+
+        .lightbox-caption {
+            margin-top: 1.5rem;
+            color: #fff;
+            font-size: 1.1rem;
+            text-align: center;
+            max-width: 800px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            color: #fff;
+            font-size: 3rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .lightbox-close:hover { color: var(--accent-primary); }
+
         /* =========================================
            ABOUT SECTION
            ========================================= */
@@ -615,6 +703,41 @@
                         The game blends light platforming, enemy encounters, and level progression across three themed environments.
                     </p>
                 </div>
+                
+                <div class="proj-section">
+                    <h3>Media Gallery</h3>
+                    <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 0.5rem;">
+                        (Vlick for detail)
+                    </p>
+                    
+                    <div class="gallery-scroller">
+                        <!-- Image 1 -->
+                        <div class="gallery-item" onclick="openLightbox(this, 'Boss Fight: This shows the Phase 2 transition where the Slime King summons minions.')">
+                            <!-- Replace src with your actual image file -->
+                            <img src="lumina_glen.png" alt="Boss Fight">
+                        </div>
+
+                        <!-- Image 2 -->
+                        <div class="gallery-item" onclick="openLightbox(this, 'Inventory System: A breakdown of the grid-based inventory logic.')">
+                            <img src="lumina_glen.png" alt="Inventory">
+                        </div>
+
+                        <!-- Image 3 (GIF) -->
+                        <div class="gallery-item" onclick="openLightbox(this, 'Slime AI: Demonstrating the physics-based jump attack.')">
+                            <img src="lumina_glen.png" alt="AI Behavior">
+                        </div>
+
+                        <!-- Image 4 -->
+                        <div class="gallery-item" onclick="openLightbox(this, 'Level Design: A view of the forest area layout.')">
+                            <img src="lumina_glen.png" alt="Level Design">
+                        </div>
+
+                        <!-- Add as many items as you want here -->
+                        <div class="gallery-item" onclick="openLightbox(this, 'Concept Art: Early sketch of the player weapon.')">
+                            <img src="lumina_glen.png" alt="Concept Art">
+                        </div>
+                    </div>
+                </div>
 
                 <div class="proj-section">
                     <h3>My Contributions</h3>
@@ -658,15 +781,6 @@
                                 As a result, playtesters reported that combat felt more readable, and engaging.
                             </p>
                         </div>
-                    </div>
-                </div>
-
-                <div class="proj-section">
-                    <h3>Media Gallery</h3>
-                    <div class="gallery-grid">
-                        <div class="gallery-item">[GIF 1]</div>
-                        <div class="gallery-item">[GIF 2]</div>
-                        <div class="gallery-item">[GIF 3]</div>
                     </div>
                 </div>
 
@@ -722,6 +836,31 @@
                 </div>
 
                 <div class="proj-section">
+                    <h3>Media Gallery</h3>
+                    <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 0.5rem;">
+                        (Click for detail)
+                    </p>
+                    
+                    <div class="gallery-scroller">
+                        <!-- Image 1 -->
+                        <div class="gallery-item" onclick="openVideoLightbox('minigame1.mkv', 'Minigame 1 Gameplay')">
+                            <img src="minigame1.png" alt="Click to play video">
+                            <!-- Optional: Add a "Play" icon overlay via CSS if you want -->
+                        </div>
+
+                        <!-- Image 2 -->
+                        <div class="gallery-item" onclick="openVideoLightbox('minigame5.mkv', 'Minigame 5 Gameplay')">
+                            <img src="minigame5.png" alt="Inventory">
+                        </div>
+
+                        <!-- Image 3 (GIF)
+                        <div class="gallery-item" onclick="openLightbox(this, 'Narrative')">
+                            <img src="soul's_reckoning.png" alt="AI Behavior">
+                        </div> -->
+                    </div>
+                </div>
+
+                <div class="proj-section">
                     <h3>My Contributions</h3>
                     <ul class="contributions-list">
 
@@ -764,14 +903,6 @@
                     </div>
                 </div>
 
-                <div class="proj-section">
-                    <h3>Media Gallery</h3>
-                    <div class="gallery-grid">
-                        <div class="gallery-item">[GIF 1]</div>
-                        <div class="gallery-item">[GIF 2]</div>
-                        <div class="gallery-item">[GIF 3]</div>
-                    </div>
-                </div>
 
                 <div class="proj-section">
                     <div class="takeaways">
@@ -857,6 +988,92 @@
                 target.scrollIntoView({ behavior: 'smooth' });
             }
         }
+
+        // Function 1: Open an Image
+        function openLightbox(element, description) {
+            const lightbox = document.getElementById('gallery-lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            const lightboxVideo = document.getElementById('lightbox-video');
+            const lightboxText = document.getElementById('lightbox-text');
+            
+            // Reset Video
+            lightboxVideo.pause();
+            lightboxVideo.style.display = 'none';
+            lightboxVideo.src = "";
+
+            // Setup Image
+            const imgInside = element.querySelector('img');
+            lightboxImg.src = imgInside.src;
+            lightboxImg.style.display = 'block';
+            
+            // Show Lightbox
+            lightboxText.innerText = description;
+            lightbox.style.display = 'flex';
+        }
+
+        // Function 2: Open a Video
+        function openVideoLightbox(videoUrl, description) {
+            const lightbox = document.getElementById('gallery-lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            const lightboxVideo = document.getElementById('lightbox-video');
+            const lightboxText = document.getElementById('lightbox-text');
+
+            // Hide Image
+            lightboxImg.style.display = 'none';
+
+            // Setup Video
+            lightboxVideo.src = videoUrl;
+            lightboxVideo.style.display = 'block';
+            
+            // Show Lightbox
+            lightboxText.innerText = description;
+            lightbox.style.display = 'flex';
+            
+            // Optional: Auto-play the video
+            lightboxVideo.play();
+        }
+
+        function closeLightbox(event) {
+            const lightbox = document.getElementById('gallery-lightbox');
+            const lightboxVideo = document.getElementById('lightbox-video');
+
+            // Close if clicking background or X button
+            if (event.target.id === 'gallery-lightbox' || event.target.classList.contains('lightbox-close')) {
+                lightbox.style.display = 'none';
+                
+                // Stop the video so audio doesn't keep playing
+                lightboxVideo.pause();
+                lightboxVideo.src = ""; 
+            }
+        }
+
+        // Close on Escape Key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === "Escape") {
+                const lightbox = document.getElementById('gallery-lightbox');
+                const lightboxVideo = document.getElementById('lightbox-video');
+                
+                lightbox.style.display = 'none';
+                lightboxVideo.pause();
+                lightboxVideo.src = "";
+            }
+        });
     </script>
+
+    <div id="gallery-lightbox" class="lightbox" onclick="closeLightbox(event)">
+        <span class="lightbox-close">&times;</span>
+        
+        <!-- Image Player (Default) -->
+        <img class="lightbox-content" id="lightbox-img" src="" alt="Enlarged Image" style="display:none;">
+        
+        <!-- Video Player (Hidden by default) -->
+        <video class="lightbox-content" id="lightbox-video" controls style="display:none;">
+            Your browser does not support the video tag.
+        </video>
+
+        <div class="lightbox-caption" id="lightbox-text">Description goes here...</div>
+    </div>
+
+</div>
 </body>
 </html>
