@@ -413,7 +413,7 @@
         }
 
         .lightbox-content {
-            max-width: 90%;
+            max-width: 50%;
             max-height: 80vh;
             border: 2px solid var(--accent-primary);
             border-radius: 4px;
@@ -707,13 +707,12 @@
                 <div class="proj-section">
                     <h3>Media Gallery</h3>
                     <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 0.5rem;">
-                        (Vlick for detail)
+                        (Click for detail)
                     </p>
                     
                     <div class="gallery-scroller">
                         <!-- Image 1 -->
                         <div class="gallery-item" onclick="openLightbox(this, 'Boss Fight: This shows the Phase 2 transition where the Slime King summons minions.')">
-                            <!-- Replace src with your actual image file -->
                             <img src="lumina_glen.png" alt="Boss Fight">
                         </div>
 
@@ -842,15 +841,27 @@
                     </p>
                     
                     <div class="gallery-scroller">
+                        <div class="gallery-item" onclick="openLightbox(this, 
+                        'The player progresses through a narrated story with dialogue choices that may influence gameplay. ' +
+                        'Players can press the spacebar to continue or interact directly with the screen.' + 
+                        'The gif above shows how the player can interact with the screen to make a choice.')">
+                            <img src="doorchoice.gif" alt="Image">
+                        </div>
                         <!-- Image 1 -->
-                        <div class="gallery-item" onclick="openVideoLightbox('minigame1.mkv', 'Minigame 1 Gameplay')">
-                            <img src="minigame1.png" alt="Click to play video">
-                            <!-- Optional: Add a "Play" icon overlay via CSS if you want -->
+                        <div class="gallery-item" onclick="openVideoLightbox('minigame1.mkv', 
+                        'Minigame 1 - Context: Clicking a door reveals a keypad memory game where players repeat a shown sequence. ' +
+                        'They must complete three sequences in a row to unlock the door, and failing resets progress. ' +
+                        'This first minigame is designed to show players that upcoming challenges will tie closely to the story, ' +
+                        'encouraging them to pay attention to both gameplay and narrative as they progress.')">
+                            <img src="minigame1.png" alt="Video">
                         </div>
 
                         <!-- Image 2 -->
-                        <div class="gallery-item" onclick="openVideoLightbox('minigame5.mkv', 'Minigame 5 Gameplay')">
-                            <img src="minigame5.png" alt="Inventory">
+                        <div class="gallery-item" onclick="openVideoLightbox('minigame5.mkv', 
+                        'Minigame 5 - Context: The player must collect all the souls of their people within a time limit while avoiding soulkeepers. ' +
+                        'Soulkeepers block progress and grow larger if accidentally targeted, making it harder to gather the remaining souls. ' +
+                        'The number of souls and the time limit are displayed on the screen.')">
+                            <img src="minigame5.png" alt="Video">
                         </div>
 
                         <!-- Image 3 (GIF)
@@ -909,9 +920,9 @@
                         <h3>Key Takeaways</h3>
                         <ul class="contributions-list">
                             <li>Learned how to build minigames that align mechanically with narrative themes.</li>
-                            <li>Improved rapid prototyping and iteration workflows based on structured playtest feedback.</li>
+                            <li>Improved rapid prototyping game designs and iterating on structured playtest feedback.</li>
                             <li>Strengthened ability to integrate gameplay systems with branching dialogue tools like Ink.</li>
-                            <li>Gained experience architecting clean state transitions across multiple minigame scenes.</li>
+                            <li>Gained experience architecting state transitions across multiple minigame scenes.</li>
                         </ul>
                     </div>
                 </div>
