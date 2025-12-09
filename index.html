@@ -707,33 +707,41 @@
                 <div class="proj-section">
                     <h3>Media Gallery</h3>
                     <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 0.5rem;">
-                        (Click for detail)
+                        (Click for detail) (Scroll right for more)
                     </p>
                     
                     <div class="gallery-scroller">
                         <!-- Image 1 -->
-                        <div class="gallery-item" onclick="openLightbox(this, 'Boss Fight: This shows the Phase 2 transition where the Slime King summons minions.')">
-                            <img src="lumina_glen.png" alt="Boss Fight">
+                        <div class="gallery-item" onclick="openLightbox(this, 'Boss Slime King')">
+                            <img src="Boss Idle.gif" alt="Boss Idle">
                         </div>
 
                         <!-- Image 2 -->
-                        <div class="gallery-item" onclick="openLightbox(this, 'Inventory System: A breakdown of the grid-based inventory logic.')">
-                            <img src="lumina_glen.png" alt="Inventory">
+                        <div class="gallery-item" onclick="openLightbox(this, 'Slime King Jump Attack. Minions jump out from the Slime King as they spawn and navigate toward the player when finish their jump. ')">
+                            <img src="Boss Minion Spawn.gif" alt="Inventory">
                         </div>
 
                         <!-- Image 3 (GIF) -->
-                        <div class="gallery-item" onclick="openLightbox(this, 'Slime AI: Demonstrating the physics-based jump attack.')">
-                            <img src="lumina_glen.png" alt="AI Behavior">
+                        <div class="gallery-item" onclick="openLightbox(this, 'Slime King projectiles. Multiple projectiles spawn and charge, growing in size, then home towards the player. ')">
+                            <img src="Boss Projectile.gif" alt="AI Behavior">
                         </div>
 
                         <!-- Image 4 -->
-                        <div class="gallery-item" onclick="openLightbox(this, 'Level Design: A view of the forest area layout.')">
-                            <img src="lumina_glen.png" alt="Level Design">
+                        <div class="gallery-item" onclick="openLightbox(this, 'Guard Slime. Guard slimes are FSM-based enemy AI with Patrol, Chase, and Attack states making clear transition rules between them.')">
+                            <img src="Guard Behavior.gif" alt="Level Design">
                         </div>
 
                         <!-- Add as many items as you want here -->
-                        <div class="gallery-item" onclick="openLightbox(this, 'Concept Art: Early sketch of the player weapon.')">
-                            <img src="lumina_glen.png" alt="Concept Art">
+                        <div class="gallery-item" onclick="openLightbox(this, 'Turret Slime. Turret slimes constantly face the player and uses distance checks to begin firing at the player.')">
+                            <img src="Turret Behavior.gif" alt="Concept Art">
+                        </div>
+
+                        <div class="gallery-item" onclick="openLightbox(this, 'Health vial drops from enemies.')">
+                            <img src="Health Drop.gif" alt="Concept Art">
+                        </div>
+
+                        <div class="gallery-item" onclick="openLightbox(this, 'Code snippet of FSM logic.')">
+                            <img src="FSM example.png" alt="Concept Art">
                         </div>
                     </div>
                 </div>
